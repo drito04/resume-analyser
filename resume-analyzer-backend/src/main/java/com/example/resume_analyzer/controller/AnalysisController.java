@@ -1,5 +1,6 @@
 package com.example.resume_analyzer.controller;
 
+import com.example.resume_analyzer.model.ResumeAnalysis;
 import com.example.resume_analyzer.service.AIService;
 import com.example.resume_analyzer.service.PDFService;
 import lombok.AllArgsConstructor;
@@ -23,8 +24,12 @@ public class AnalysisController {
     }
 
     @PostMapping("/analyze")
-    public ResponseEntity<String> getAnalysis(@RequestBody String rText, String jobD) throws Exception {
-        String response = aiService.generateAnalysis(rText,jobD);
+    public ResponseEntity<ResumeAnalysis> getAnalysis(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "jobDescription", required = false) String jobDescription) throws Exception {
+
+        String resumeText = pdfService.extractText(file);
+        ResumeAnalysis response = aiService.generateAnalysis(resumeText,jobDescription);
         return ResponseEntity.ok(response);
     }
 }
