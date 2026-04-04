@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="aiGradient" x1="0" y1="64" x2="64" y2="0">
+      <stop offset="0%" stop-color="#4F46E5" /> <stop offset="100%" stop-color="#10B981" /> </linearGradient>
+  </defs>
+
+  <path d="M12 4C10.8954 4 10 4.89543 10 6V58C10 59.1046 10.8954 60 12 60H52C53.1046 60 54 59.1046 54 58V18L40 4H12Z" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="2"/>
+  
+  <rect x="36.5" y="36.5" width="26" height="6" rx="3" transform="rotate(45 36.5 36.5)" fill="url(#aiGradient)" />
+  
+  <circle cx="30" cy="30" r="16" fill="#FFFFFF" stroke="url(#aiGradient)" stroke-width="5" />
+
+  <circle cx="30" cy="30" r="6" fill="url(#aiGradient)">
+    <animate attributeName="r" values="5.5;6.5;5.5" dur="1.5s" repeatCount="indefinite" />
+  </circle>
+</svg>

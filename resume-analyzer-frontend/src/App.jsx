@@ -1,35 +1,87 @@
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Box, Container, TextField, Typography, FormControl, InputLabel, Select, MenuItem, Button, CircularProgress, Alert} from '@mui/material'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/system';
 import './App.css'
+import UploadForm from './components/UploadForm';
+import AnalysisResult from './components/AnalysisResult';
+import Header from './components/Header';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [results, setResults] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+
+  const handleAnalyze = async (file, jobDescription) => {
+    setError(null);
+    setResults(null);
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('jobDescription', jobDescription);
+    try {
+      const response = await fetch("http://localhost:8080/api/analyze", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Unknown error');
+      }
+
+      const data = await response.json();
+      setResults(data);
+
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if(loading) {
+    return (
+      <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 10, gap: 3}}>
+        <CircularProgress />
+        <Typography variant="h6" color="text.secondary">
+          Analyzing your resume...
+          </Typography>
+      </Box>
+    );
+  }
+
+  if(error) {
+    return (
+      <Box sx={{maxWidth: 600, mx: 'auto', mt: 8, px: 3}}>
+        <Alert severity="error" sx={{mb: 2}}>{error}</Alert>
+        <Button variant="outlined" onClick={() => setError(null)}>
+          Try Again
+        </Button>
+      </Box>
+    );
+  }
+
+  if (results) {
+    return (
+      <AnalysisResult
+            results={results} 
+            onReset={() => setResults(null)} 
+        />
+    );
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+      <UploadForm onSubmit={handleAnalyze} />
     </>
-  )
+  );
 }
-
 export default App

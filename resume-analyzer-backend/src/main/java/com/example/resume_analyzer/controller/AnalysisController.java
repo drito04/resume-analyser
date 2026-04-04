@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class AnalysisController {
 
     private final PDFService pdfService;
