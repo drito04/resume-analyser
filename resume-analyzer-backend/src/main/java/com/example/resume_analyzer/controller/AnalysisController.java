@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin({"https://resume-analyser-flame-delta.vercel.app", "http://localhost:5173"})
 public class AnalysisController {
 
     private final PDFService pdfService;
