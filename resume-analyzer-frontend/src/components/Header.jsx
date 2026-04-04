@@ -29,7 +29,7 @@ export default function Header() {
           fontSize: '1rem',
         }}>
           <img 
-            src="/public/gemini-svg (1).svg" 
+            src="/gemini-svg (1).svg" 
             alt="Logo" 
             style={{ width: '100%', height: '100%' }} 
           />

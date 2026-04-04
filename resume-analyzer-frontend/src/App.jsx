@@ -26,7 +26,7 @@ function App() {
     formData.append('file', file);
     formData.append('jobDescription', jobDescription);
     try {
-      const response = await fetch("http://localhost:8080/api/analyze", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/analyze`, {
         method: "POST",
         body: formData,
       });
